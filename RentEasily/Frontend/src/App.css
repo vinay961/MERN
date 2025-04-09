@@ -1,34 +1,5 @@
-* {
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-.App {
-    position: relative;
-    height: 100vh; /* Change height to min-height */
-    width: 100vw;
-    display: flex;
-    flex-direction: column; /* Ensures content stacks properly */
-}
-
-.App::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('/images/HomePage.jpg');
-    background-size: cover;
-    background-position: center;
-    filter: brightness(0.4);
-    z-index: -1;
-}
-
-/* Responsive Fixes */
-@media (max-width: 768px) {
-    .App {
-        height: auto; /* Ensure it adjusts dynamically */
-    }
 }
