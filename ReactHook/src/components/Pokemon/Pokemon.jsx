@@ -1,73 +1,83 @@
 import './Pokemon.css';
-
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
-function Pokemon(){
-    const [pokemon, setPokemon] = useState(null);
+function Pokemon({ searchQuery }) {
+    const [pokemon, setPokemon] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [fullPokemonList, setFullPokemonList] = useState([]);
     const dataRef = useRef(null);
 
-    async function fetchPokemon() {
-        try {
-            const result = await fetch('https://pokeapi.co/api/v2/pokemon');
-            const data = await result.json();
-            dataRef.current = data;
+    useEffect(() => {
+        fetchInitialPokemon();
+    }, []);
 
-            const detailedPokemon = await Promise.all(
-                data.results.map(async (poke) => {
-                    const pokeResult = await fetch(poke.url);
-                    return pokeResult.json();
-                })
-            );
+    useEffect(() => {
+        if (searchQuery.length > 0) {
+            searchPokemon();
+        } else {
+            fetchPokemon(dataRef.current?.next || 'https://pokeapi.co/api/v2/pokemon');
+        }
+    }, [searchQuery]);
 
-            setPokemon(detailedPokemon);
-            setLoading(false);
-        } catch (error) {
-            console.error('Error fetching Pokemon:', error);
+    async function fetchInitialPokemon() {
+        setLoading(true);
+        const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=10000'); // get all names + urls
+        const data = await response.json();
+        setFullPokemonList(data.results); // this is used for searching
+        fetchPokemon('https://pokeapi.co/api/v2/pokemon'); // fetch first page data
+    }
+
+    async function fetchPokemon(url) {
+        setLoading(true);
+        const result = await fetch(url);
+        const data = await result.json();
+        dataRef.current = data;
+
+        const detailed = await Promise.all(
+            data.results.map(async (poke) => {
+                const res = await fetch(poke.url);
+                return res.json();
+            })
+        );
+
+        setPokemon(detailed);
+        setLoading(false);
+    }
+
+    async function searchPokemon() {
+        setLoading(true);
+        const filtered = fullPokemonList.filter(poke =>
+            poke.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+
+        const detailed = await Promise.all(
+            filtered.map(async (poke) => {
+                const res = await fetch(poke.url);
+                return res.json();
+            })
+        );
+
+        setPokemon(detailed);
+        setLoading(false);
+    }
+
+    async function Next() {
+        if (dataRef.current?.next) {
+            fetchPokemon(dataRef.current.next);
         }
     }
 
-    useEffect(() => {
-        fetchPokemon();
-    },[]);
-
-    async function Next(){
-        const result = await fetch(dataRef.current.next);
-        const data = await result.json();
-        
-        const detailedPokemon = await Promise.all(
-            data.results.map(async (poke) => {
-                const pokeResult = await fetch(poke.url);
-                return pokeResult.json();
-            })
-        );
-        setPokemon(detailedPokemon);
-        dataRef.current = data;
-        setLoading(false);
-    }
-
-    async function Previous(){
-        const result = await fetch(dataRef.current.previous);
-        const data = await result.json();
-
-        const detailedPokemon = await Promise.all(
-            data.results.map(async (poke) => {
-                const pokeResult = await fetch(poke.url);
-                return pokeResult.json();
-            })
-        );
-        setPokemon(detailedPokemon);
-        dataRef.current = data;
-        setLoading(false);
+    async function Previous() {
+        if (dataRef.current?.previous) {
+            fetchPokemon(dataRef.current.previous);
+        }
     }
 
     return (
         <div className="pokemon">
             {loading && <p>Loading...</p>}
-            {pokemon && (
+            {!loading && pokemon && (
                 <div className="pokemon-list">
                     {pokemon.map((poke) => (
                         <div key={poke.id} className="pokemon-item">
@@ -81,16 +91,19 @@ function Pokemon(){
                     ))}
                 </div>
             )}
-            {!loading && pokemon && pokemon.length === 0 && <p>No Pokemon found</p>}
+            {!loading && pokemon.length === 0 && <p>No Pokémon found</p>}
 
-            <div className="d-flex justify-content-center gap-3 my-4">
-                <button className="btn btn-outline-primary px-4 py-2 shadow rounded-pill" onClick={Previous} >
-                    Previous
-                </button>
-                <button className="btn btn-outline-secondary px-4 py-2 shadow rounded-pill" onClick={Next}>
-                    Next
-                </button>
-            </div>
+            {/* Show pagination buttons only when not searching */}
+            {searchQuery.length === 0 && (
+                <div className="d-flex justify-content-center gap-3 my-4">
+                    <button className="btn btn-outline-primary px-4 py-2 shadow rounded-pill" onClick={Previous}>
+                        Previous
+                    </button>
+                    <button className="btn btn-outline-secondary px-4 py-2 shadow rounded-pill" onClick={Next}>
+                        Next
+                    </button>
+                </div>
+            )}
         </div>
     );
 }
