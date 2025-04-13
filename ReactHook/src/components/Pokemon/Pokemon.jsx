@@ -3,6 +3,7 @@ import './Pokemon.css';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 function Pokemon(){
     const [pokemon, setPokemon] = useState(null);
@@ -69,8 +70,10 @@ function Pokemon(){
             {pokemon && (
                 <div className="pokemon-list">
                     {pokemon.map((poke) => (
-                        <div key={poke.name} className="pokemon-item">
-                            <img src={poke.sprites.front_default} alt={poke.name} height={"70px"} width={"70px"} />
+                        <div key={poke.id} className="pokemon-item">
+                            <Link to={`/pokemon/${poke.id}`} className="text-decoration-none text-dark">
+                                <img src={poke.sprites.other.dream_world.front_default} alt={poke.name} height={"70px"} width={"70px"} />
+                            </Link>
                             <h2>{poke.name}</h2>
                             <p>Height: {poke.height}</p>
                             <p>Weight: {poke.weight}</p>
@@ -81,7 +84,7 @@ function Pokemon(){
             {!loading && pokemon && pokemon.length === 0 && <p>No Pokemon found</p>}
 
             <div className="d-flex justify-content-center gap-3 my-4">
-                <button className="btn btn-outline-primary px-4 py-2 shadow rounded-pill" onClick={Previous} disabled={!dataRef.current.previous}>
+                <button className="btn btn-outline-primary px-4 py-2 shadow rounded-pill" onClick={Previous} >
                     Previous
                 </button>
                 <button className="btn btn-outline-secondary px-4 py-2 shadow rounded-pill" onClick={Next}>

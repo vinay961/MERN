@@ -1,0 +1,77 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+.details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    min-height: 100vh;
+    margin-top: -60px;
+}
+
+.loading {
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.details-content {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+.details-content h1 {
+    text-transform: capitalize;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #64a453;
+}
+
+.details-content img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    margin-bottom: 1.5rem;
+    margin-left: 130px;
+}
+
+.details-content p {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.details-content h2 {
+    margin-top: 1.5rem;
+    font-size: 1.6rem;
+    color: #333;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+.details-content ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 1rem;
+}
+
+.details-content ul li {
+    background-color: #f1f1f1;
+    margin: 0.3rem 0;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    text-transform: capitalize;
+    font-weight: 500;
+    color: #444;
+    transition: background 0.3s;
+}
+
+.details-content ul li:hover {
+    background-color: #dfe9f3;
+}

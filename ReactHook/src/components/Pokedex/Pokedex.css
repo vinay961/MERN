@@ -12,14 +12,3 @@
     height: auto;
     background-color: #f0f0f0;
 }
-
-.pokedex h1{
-    margin: 10px 0;
-    font-size: 2.5rem;
-    color: #333;
-    margin-bottom: 20px;
-    font-weight: 700;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
