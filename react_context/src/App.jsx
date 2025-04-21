@@ -1,9 +1,13 @@
 import React from 'react'
 import './App.css'
-import { useState } from 'react';
+import { useReducer,useState } from 'react';
 
 import TodoList from './components/TodoList/TodoList.jsx';
 import AddTodo from './components/AddTodo/AddTodo.jsx';
+
+import TodoContext from './context/TodoContext.js';
+import todoReducer from './reducers/todoReducer.js';
+import Todo from './components/Todo/Todo.jsx';
 
 function App() {
   const [todo, setTodo] = useState([
@@ -19,10 +23,14 @@ function App() {
     setTodo(todo.map((item) => (item.id === id ? { ...item, text: newText} : item)))
   }
 
+  const [list, dispatch] = useReducer(todoReducer, []);
+
   return (
     <>
-      <AddTodo updateList={(td)=> {setTodo([...todo, {id: todo.length + 1, text: td, completed:false}])}} />
-      <TodoList todos={todo} onDelete={handleDelete} onEdit={handleEdit} />
+      <TodoContext.Provider value={{ todo, setTodo }}>
+        <AddTodo updateList={(td)=> { dispatch({type: 'ADD_TODO', payload:{todoText:todo}}) } } />
+        <TodoList onDelete={handleDelete} onEdit={handleEdit} />
+      </TodoContext.Provider>
     </>
   )
 }

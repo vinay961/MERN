@@ -20,6 +20,13 @@
     cursor: pointer;
 }
 
+.todo button.delete{
+    background-color: #dc3545;
+}
+.todo button.delete:hover{
+    background-color: #c82333;
+}
+
 .todo button:hover{
     background-color: #0056b3;
 }
