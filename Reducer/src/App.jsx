@@ -1,25 +1,6 @@
 import React, { useReducer, useState } from 'react';
 import './App.css';
-
-const playlistReducer = (state, action) => {
-  switch (action.type) {
-    case 'ADD_SONG':
-      return [
-        ...state,
-        { id: Date.now(), title: action.payload, favorite: false }
-      ];
-    case 'REMOVE_SONG':
-      return state.filter(song => song.id !== action.payload);
-    case 'TOGGLE_FAVORITE':
-      return state.map(song =>
-        song.id === action.payload
-          ? { ...song, favorite: !song.favorite }
-          : song
-      );
-    default:
-      return state;
-  }
-};
+import playlistReducer from './reducers/todoReducer.js';
 
 function App() {
   const [songs, dispatch] = useReducer(playlistReducer, []);
@@ -56,11 +37,14 @@ function App() {
               style={{
                 cursor: 'pointer',
                 fontWeight: song.favorite ? 'bold' : 'normal',
-                color: song.favorite ? 'goldenrod' : 'black'
+                // color: song.favorite ? 'goldenrod' : 'black'
               }}
             >
               {song.title} {song.favorite && '⭐'}
             </span>
+            <button onClick={() => dispatch({ type: 'TOGGLE_FAVORITE', payload: song.id })} style={{ marginLeft: '10px' }}>
+              Mark Favorite
+            </button>
             <button
               onClick={() => dispatch({ type: 'REMOVE_SONG', payload: song.id })}
               style={{ marginLeft: '10px' }}
