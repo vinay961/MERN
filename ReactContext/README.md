@@ -1,12 +1,44 @@
-# React + Vite
+# 🛒 React Cart App using Context + useReducer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a simple shopping cart application built using **React**, where we manage cart state globally using **React Context API** and **`useReducer`**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📌 Why This Approach?
 
-## Expanding the ESLint configuration
+Managing shared state like a cart using just `useState` becomes messy as your app grows.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Using:
+- `Context` → to share data across components
+- `useReducer` → to handle complex logic (add, remove, update, clear)
+
+...gives us a **clean, scalable, and Redux-like state management solution**.
+
+---
+
+## 🚀 Features
+
+- Add items to cart
+- Remove items from cart
+- Track quantity of each product
+- Global cart state across pages
+- Structured logic using reducer
+
+---
+
+## 🧠 Core Concepts
+
+### 1. **React Context**
+- Allows us to **share state globally** across components
+- Avoids prop drilling
+
+### 2. **useReducer Hook**
+- Manages **state transitions** based on dispatched `actions`
+- Centralizes update logic in a single `reducer` function
+
+### 3. **Context + Reducer Together**
+- Builds a mini Redux-style architecture
+- Easy to scale, test, and debug
+
+---
+

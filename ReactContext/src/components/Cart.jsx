@@ -12,6 +12,7 @@ function Cart() {
             <tr style={{ backgroundColor: '#f2f2f2' }}>
               <th style={thStyle}>Name</th>
               <th style={thStyle}>Quantity</th>
+              <th style={thStyle}>Price</th>
               <th style={thStyle}>Action</th>
             </tr>
           </thead>
@@ -20,6 +21,7 @@ function Cart() {
               <tr key={p.id} style={{ textAlign: 'center' }}>
                 <td style={tdStyle}>{p.name}</td>
                 <td style={tdStyle}>{p.quantity}</td>
+                <td style={tdStyle}>₹{p.price*p.quantity}</td>
                 <td style={tdStyle}>
                   <button
                     onClick={() => removeItem(p.id)}
