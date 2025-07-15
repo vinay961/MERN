@@ -20,6 +20,7 @@ function HomePage() {
                         </button>
                     </div>
                 </div>
+                <img src="Images\homePageMainImage.png" alt="" />
             </div>
         </HomeLayout>
     );
